@@ -1,9 +1,14 @@
+
 use std::io;
 use std::cmp::Ordering;
 use rand::Rng;
 
 fn main(){
     println!("Welcome to the guessing game");
+    
+    
+    loop {
+
 
     //generate the range
     let secret_number: u32 = rand::thread_rng().gen_range(1..=100);
@@ -13,6 +18,8 @@ fn main(){
     let mut guess = String::new();
 
     //store the input
+        
+    
 
     io::stdin().read_line(&mut guess).expect("Failed to read input");
 
@@ -20,14 +27,19 @@ fn main(){
 
     //change the string to u32
 
-    let guess: u32 = guess.trim().parse().expect("Please enter number only");
+    let guess: u32 = match guess.trim().parse() {
+        Ok(num) => num,
+        Err(_) => continue, 
+    };
 
     match guess.cmp(&secret_number) {
-        Ordering::Equal => println!("You win, guess is equal to secret number"),
+        Ordering::Equal => { 
+            println!("You win, guess is equal to secret number");
+            break;
+        },
         Ordering::Less => println!("Too small!!"),
         Ordering::Greater => println!("Too big!!"),
-        
     }
-
+}
 
 }
