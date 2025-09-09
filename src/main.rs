@@ -19,9 +19,15 @@ fn main(){
         //store it
         io::stdin().read_line(&mut guess).expect("Failed to read the input");
 
+        //check if the user wants to quit
+        if guess.trim().eq_ignore_ascii_case("quit"){
+            println!("Quiting the game, bye!!");
+            break;
+        }
+
         let guess: u32 = match guess.trim().parse(){
             Ok(num) => num,
-            Err(_) => break,
+            Err(_) => continue,
         };//let guess
 
         println!("Your guess is: {guess} and the secret number is: {secret_number}");
