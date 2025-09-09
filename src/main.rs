@@ -1,47 +1,51 @@
-use std::{io};
-use std::cmp::Ordering;
+use std::{io, cmp::Ordering};
 use rand::Rng;
 
 fn main(){
-
-    //title
-
-    println!("Welcome to the guessing game!!");
-
+// title
+    println!("Welcome to the guessing game!!!");
+//game should continue unless user want to quit or user wins
     loop {
+
+        //generate a random/secret number
         let secret_number: u32 = rand::thread_rng().gen_range(1..=100);
 
-        println!("Please enter your guess");
-        // store the input, create a variable
+        println!("Please enter your guess.");
+
+        //create a variable to store the input
 
         let mut guess = String::new();
 
-        //store it
         io::stdin().read_line(&mut guess).expect("Failed to read the input");
 
-        //check if the user wants to quit
+        //check if the user wants to quit the game
         if guess.trim().eq_ignore_ascii_case("quit"){
-            println!("Quiting the game, bye!!");
+            println!("Thank you for playing the game, Bye for now!!");
             break;
-        }
+        }//if guess.trim().eq_ignore_ascii.case("quit")
 
-        let guess: u32 = match guess.trim().parse(){
+        //change the input from string to u32
+        let guess: u32 = match guess.trim().parse() {
             Ok(num) => num,
-            Err(_) => continue,
-        };//let guess
+            Err(_) => { println!("Please enter a numerical value!");
+                        continue;
+            }
+        };
 
         println!("Your guess is: {guess} and the secret number is: {secret_number}");
 
-        //check the entry and give op accordingly
+        //match the guess and secret number and give the output accordingly.
 
         match guess.cmp(&secret_number) {
-            Ordering::Less => println!("Too small"),
             Ordering::Greater => println!("Too big!!"),
+            Ordering::Less => println!("Too Small!"),
             Ordering::Equal => {
-                println!("Your guess is correct, guess number is equal to secret number");
+                println!("Congratulations!!, Your guess is correct, you win!!");
                 break;
-            }//Ordering Equal
+            }//Ordering::Equal
             
-        }//match guess.cmp 
+        }//match guess.cmp
+        
     }//loop
+
 }
