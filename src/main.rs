@@ -2,50 +2,54 @@ use std::{io, cmp::Ordering};
 use rand::Rng;
 
 fn main(){
-// title
-    println!("Welcome to the guessing game!!!");
-//game should continue unless user want to quit or user wins
-    loop {
+    // title of the game
+    println!("Welcome to the Guessing Game");
 
-        //generate a random/secret number
+    //We want to continue till the user wants to quit or user wins
+    loop {
+        
+        //generate a secret/random number
         let secret_number: u32 = rand::thread_rng().gen_range(1..=100);
 
+        // take user input
         println!("Please enter your guess.");
-
-        //create a variable to store the input
 
         let mut guess = String::new();
 
-        io::stdin().read_line(&mut guess).expect("Failed to read the input");
+        //store the input into the variable
+        io::stdin().read_line(&mut guess).expect("Failed to read the message");
 
-        //check if the user wants to quit the game
+        // check if user wants to quit
         if guess.trim().eq_ignore_ascii_case("quit"){
-            println!("Thank you for playing the game, Bye for now!!");
+            println!("Thank you for playing, see you next time. Bye for now!!");
             break;
-        }//if guess.trim().eq_ignore_ascii.case("quit")
+        }
 
-        //change the input from string to u32
-        let guess: u32 = match guess.trim().parse() {
+
+        //convert the string into u32 and give a message if the input is not a number
+        let guess: u32 = match guess.trim().parse(){
             Ok(num) => num,
-            Err(_) => { println!("Please enter a numerical value!");
-                        continue;
-            }
-        };
+            Err(_) => {
+                println!("Please enter a valid number.");
+                continue;
+            }//Err(_)
+        };//let guess: u32 = match guess.trim().parse()"
+
+
+        //give the message of the guess and secret number
 
         println!("Your guess is: {guess} and the secret number is: {secret_number}");
 
-        //match the guess and secret number and give the output accordingly.
+        //match the secret/random number and give message accordingly
 
         match guess.cmp(&secret_number) {
             Ordering::Greater => println!("Too big!!"),
-            Ordering::Less => println!("Too Small!"),
+            Ordering::Less => println!("Too less!!"),
             Ordering::Equal => {
-                println!("Congratulations!!, Your guess is correct, you win!!");
+                println!("Congratulations!! You have won!!");
                 break;
             }//Ordering::Equal
-            
         }//match guess.cmp
-        
-    }//loop
 
+    }//loop
 }
